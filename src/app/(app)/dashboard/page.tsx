@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   Users,
   FileUp,
@@ -50,13 +51,22 @@ export default function DashboardPage() {
   return (
     <div className="p-4 lg:p-8 max-w-6xl mx-auto">
       {/* Welcome */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-navy">
-          Rugby World Cup Australia 2027
-        </h1>
-        <p className="text-sm text-gray-500 mt-1">
-          Welcome back, Dr. Kandrotas. Here&apos;s your tournament overview.
-        </p>
+      <div className="mb-8 flex items-center gap-4">
+        <Image
+          src="/world-rugby-logo.png"
+          alt="World Rugby"
+          width={48}
+          height={80}
+          className="shrink-0"
+        />
+        <div>
+          <h1 className="text-2xl font-bold text-navy">
+            Rugby World Cup Australia 2027
+          </h1>
+          <p className="text-sm text-gray-500 mt-1">
+            Welcome back, Dr. Kandrotas. Here&apos;s your tournament overview.
+          </p>
+        </div>
       </div>
 
       {/* Stats */}
