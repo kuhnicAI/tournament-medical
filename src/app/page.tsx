@@ -1,41 +1,30 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { ShieldCheck, Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0B1120] via-[#0F172A] to-[#162036] flex flex-col items-center justify-center px-4">
-      {/* Subtle radial glow */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-accent/[0.06] rounded-full blur-3xl" />
-      </div>
-
-      <div className="w-full max-w-[400px] relative z-10">
-        {/* Logo */}
-        <div className="text-center mb-8 flex flex-col items-center">
-          <Image
-            src="/world-rugby-logo.png"
-            alt="World Rugby"
-            width={72}
-            height={120}
-            className="mb-4"
-            priority
-          />
-          <p className="text-sm text-slate-400 font-medium tracking-wide">
+    <div className="min-h-screen bg-gradient-to-b from-[#0B1120] to-[#0F172A] flex flex-col items-center justify-center px-4">
+      <div className="w-full max-w-[380px]">
+        {/* Wordmark */}
+        <div className="text-center mb-8">
+          <p className="text-[14px] font-medium text-white/80 tracking-wide">
+            World Rugby
+          </p>
+          <p className="text-[12px] text-white/30 mt-1">
             Tournament Medical Services
           </p>
         </div>
 
-        {/* Login Card */}
-        <div className="bg-white rounded-2xl shadow-2xl shadow-black/20 p-8 border border-white/20">
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold text-text">Welcome back</h2>
-            <p className="text-sm text-text-muted mt-1">
-              Sign in to access the medical portal
+        {/* Card */}
+        <div className="bg-surface rounded-lg shadow-2xl shadow-black/25 p-7">
+          <div className="mb-5">
+            <h2 className="text-[15px] font-medium text-heading">Welcome back</h2>
+            <p className="text-[13px] text-secondary mt-1">
+              Sign in to the medical portal
             </p>
           </div>
 
@@ -47,24 +36,18 @@ export default function LoginPage() {
           >
             <div className="space-y-4">
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-[13px] font-medium text-text-secondary mb-1.5"
-                >
+                <label htmlFor="email" className="block text-[12px] font-medium text-secondary mb-1.5">
                   Email
                 </label>
                 <input
                   id="email"
                   type="email"
                   defaultValue="gytis.kandrotas@worldrugby.org"
-                  className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-xl text-sm text-text placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent transition-all duration-150"
+                  className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-[13px] text-heading focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-colors"
                 />
               </div>
               <div>
-                <label
-                  htmlFor="password"
-                  className="block text-[13px] font-medium text-text-secondary mb-1.5"
-                >
+                <label htmlFor="password" className="block text-[12px] font-medium text-secondary mb-1.5">
                   Password
                 </label>
                 <div className="relative">
@@ -72,14 +55,14 @@ export default function LoginPage() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     defaultValue="password12345"
-                    className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-xl text-sm text-text placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent transition-all duration-150 pr-10"
+                    className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-[13px] text-heading focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-colors pr-10"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-secondary transition-colors"
                   >
-                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
                   </button>
                 </div>
               </div>
@@ -87,21 +70,19 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="w-full mt-6 bg-accent hover:bg-accent-hover text-white font-medium py-2.5 px-4 rounded-xl transition-all duration-150 text-sm cursor-pointer shadow-lg shadow-accent/20 hover:shadow-xl hover:shadow-accent/30 active:scale-[0.98]"
+              className="w-full mt-5 bg-accent hover:bg-accent-hover text-white font-medium py-2.5 rounded-lg transition-colors text-[13px] cursor-pointer"
             >
               Sign in
             </button>
           </form>
 
-          {/* 2FA Badge */}
-          <div className="mt-6 flex items-center justify-center gap-2 text-xs text-text-muted">
-            <ShieldCheck size={14} className="text-emerald-500" />
+          <div className="mt-5 flex items-center justify-center gap-1.5 text-[11px] text-muted">
+            <ShieldCheck size={13} className="text-muted" />
             <span>Secured with two-factor authentication</span>
           </div>
         </div>
 
-        {/* Footer */}
-        <p className="text-[11px] text-slate-500 text-center mt-8">
+        <p className="text-[10px] text-white/20 text-center mt-8">
           Powered by Kuhnic AI
         </p>
       </div>
