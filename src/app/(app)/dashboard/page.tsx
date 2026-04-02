@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   Users,
   FileUp,
@@ -28,13 +29,22 @@ const activity = [
 export default function DashboardPage() {
   return (
     <div className="p-4 lg:p-8 max-w-[1000px] mx-auto">
-      <div className="mb-8">
-        <h1 className="text-[18px] font-medium text-heading">
-          Rugby World Cup Australia 2027
-        </h1>
-        <p className="text-[13px] text-secondary mt-1">
-          Welcome back, Dr. Kandrotas
-        </p>
+      <div className="mb-8 flex items-center gap-3.5">
+        <Image
+          src="/world-rugby-logo.png"
+          alt="World Rugby"
+          width={36}
+          height={60}
+          className="shrink-0"
+        />
+        <div>
+          <h1 className="text-[18px] font-medium text-heading">
+            Rugby World Cup Australia 2027
+          </h1>
+          <p className="text-[13px] text-secondary mt-1">
+            Welcome back, Dr. Kandrotas
+          </p>
+        </div>
       </div>
 
       {/* Stats */}

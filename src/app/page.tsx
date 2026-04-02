@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ShieldCheck, Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
@@ -9,11 +10,16 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0B1120] to-[#0F172A] flex flex-col items-center justify-center px-4">
       <div className="w-full max-w-[380px]">
-        {/* Wordmark */}
-        <div className="text-center mb-8">
-          <p className="text-[14px] font-medium text-white/80 tracking-wide">
-            World Rugby
-          </p>
+        {/* Logo */}
+        <div className="text-center mb-8 flex flex-col items-center">
+          <Image
+            src="/world-rugby-logo.png"
+            alt="World Rugby"
+            width={64}
+            height={106}
+            className="mb-3"
+            priority
+          />
           <p className="text-[12px] text-white/30 mt-1">
             Tournament Medical Services
           </p>
