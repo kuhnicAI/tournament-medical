@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { Plus, Filter } from "lucide-react";
+import { Plus } from "lucide-react";
 
 type Referral = {
   id: string;
@@ -15,223 +14,96 @@ type Referral = {
 };
 
 const referrals: Referral[] = [
-  {
-    id: "REF-001",
-    player: "Player #7",
-    team: "England",
-    referringDoctor: "Dr. Sarah Chen",
-    facility: "I-MED Radiology — Melbourne",
-    type: "MRI",
-    date: "15 Oct 2027",
-    status: "In Progress",
-  },
-  {
-    id: "REF-002",
-    player: "Player #12",
-    team: "South Africa",
-    referringDoctor: "Dr. James Murray",
-    facility: "St Vincent's Hospital Sydney",
-    type: "CT Scan",
-    date: "15 Oct 2027",
-    status: "Completed",
-  },
-  {
-    id: "REF-003",
-    player: "Player #3",
-    team: "New Zealand",
-    referringDoctor: "Dr. Priya Patel",
-    facility: "Adelaide Sports Medicine Clinic",
-    type: "Consultation",
-    date: "14 Oct 2027",
-    status: "Completed",
-  },
-  {
-    id: "REF-004",
-    player: "Player #9",
-    team: "Australia",
-    referringDoctor: "Dr. Tom Richards",
-    facility: "Perth Radiological Clinic",
-    type: "X-Ray",
-    date: "16 Oct 2027",
-    status: "Submitted",
-  },
-  {
-    id: "REF-005",
-    player: "Player #15",
-    team: "Ireland",
-    referringDoctor: "Dr. Sarah Chen",
-    facility: "Brisbane Private Hospital",
-    type: "MRI",
-    date: "17 Oct 2027",
-    status: "In Progress",
-  },
-  {
-    id: "REF-006",
-    player: "Player #1",
-    team: "France",
-    referringDoctor: "Dr. Antoine Dupont",
-    facility: "Royal Melbourne Hospital",
-    type: "Consultation",
-    date: "18 Oct 2027",
-    status: "Submitted",
-  },
+  { id: "REF-001", player: "Player #7", team: "England", referringDoctor: "Dr. Sarah Chen", facility: "I-MED Radiology — Melbourne", type: "MRI", date: "15 Oct 2027", status: "In Progress" },
+  { id: "REF-002", player: "Player #12", team: "South Africa", referringDoctor: "Dr. James Murray", facility: "St Vincent's Hospital Sydney", type: "CT Scan", date: "15 Oct 2027", status: "Completed" },
+  { id: "REF-003", player: "Player #3", team: "New Zealand", referringDoctor: "Dr. Priya Patel", facility: "Adelaide Sports Medicine Clinic", type: "Consultation", date: "14 Oct 2027", status: "Completed" },
+  { id: "REF-004", player: "Player #9", team: "Australia", referringDoctor: "Dr. Tom Richards", facility: "Perth Radiological Clinic", type: "X-Ray", date: "16 Oct 2027", status: "Submitted" },
+  { id: "REF-005", player: "Player #15", team: "Ireland", referringDoctor: "Dr. Sarah Chen", facility: "Brisbane Private Hospital", type: "MRI", date: "17 Oct 2027", status: "In Progress" },
+  { id: "REF-006", player: "Player #1", team: "France", referringDoctor: "Dr. Antoine Dupont", facility: "Royal Melbourne Hospital", type: "Consultation", date: "18 Oct 2027", status: "Submitted" },
 ];
 
-const statusStyles: Record<string, string> = {
-  Submitted: "bg-blue-100 text-blue-700",
-  "In Progress": "bg-amber-100 text-amber-700",
-  Completed: "bg-green-100 text-green-700",
+const columns: { status: Referral["status"]; label: string; color: string; headerBg: string; dotColor: string }[] = [
+  { status: "Submitted", label: "Submitted", color: "border-t-blue-500", headerBg: "bg-blue-50 text-blue-700", dotColor: "bg-blue-500" },
+  { status: "In Progress", label: "In Progress", color: "border-t-amber-500", headerBg: "bg-amber-50 text-amber-700", dotColor: "bg-amber-500" },
+  { status: "Completed", label: "Completed", color: "border-t-emerald-500", headerBg: "bg-emerald-50 text-emerald-700", dotColor: "bg-emerald-500" },
+];
+
+const typeBadge: Record<string, string> = {
+  MRI: "bg-violet-50 text-violet-600",
+  "CT Scan": "bg-blue-50 text-blue-600",
+  "X-Ray": "bg-amber-50 text-amber-600",
+  Consultation: "bg-emerald-50 text-emerald-600",
 };
 
-const statuses = ["All", "Submitted", "In Progress", "Completed"] as const;
-
 export default function ReferralsPage() {
-  const [activeFilter, setActiveFilter] = useState<string>("All");
-
-  const filtered =
-    activeFilter === "All"
-      ? referrals
-      : referrals.filter((r) => r.status === activeFilter);
-
   return (
-    <div className="p-4 lg:p-8 max-w-6xl mx-auto">
+    <div className="p-4 lg:p-8 max-w-[1100px] mx-auto">
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
         <div>
-          <h1 className="text-xl font-bold text-navy">Referrals</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <h1 className="text-xl font-semibold text-text">Referrals</h1>
+          <p className="text-sm text-text-muted mt-0.5">
             Track and manage medical referrals
           </p>
         </div>
-        <button className="flex items-center gap-1.5 px-4 py-2 bg-navy text-white rounded-lg text-sm font-medium hover:bg-navy-light transition-colors cursor-pointer">
+        <button className="flex items-center gap-1.5 px-4 py-2 bg-accent text-white rounded-xl text-sm font-medium hover:bg-accent-hover transition-all duration-150 cursor-pointer shadow-lg shadow-accent/20 active:scale-[0.98]">
           <Plus size={16} />
           New Referral
         </button>
       </div>
 
-      {/* Status Filters */}
-      <div className="flex items-center gap-2 mb-4 flex-wrap">
-        <Filter size={15} className="text-gray-400" />
-        {statuses.map((status) => (
-          <button
-            key={status}
-            onClick={() => setActiveFilter(status)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
-              activeFilter === status
-                ? "bg-navy text-white"
-                : "bg-white text-gray-600 border border-grey-border hover:bg-gray-50"
-            }`}
-          >
-            {status}
-            {status !== "All" && (
-              <span className="ml-1.5 opacity-60">
-                ({referrals.filter((r) => r.status === status).length})
-              </span>
-            )}
-          </button>
-        ))}
-      </div>
-
-      {/* Table — Desktop */}
-      <div className="hidden lg:block bg-white rounded-xl border border-grey-border overflow-hidden">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-grey-border bg-grey-bg">
-              <th className="text-left text-xs font-medium text-gray-500 px-5 py-3">
-                Ref
-              </th>
-              <th className="text-left text-xs font-medium text-gray-500 px-5 py-3">
-                Player
-              </th>
-              <th className="text-left text-xs font-medium text-gray-500 px-5 py-3">
-                Referring Doctor
-              </th>
-              <th className="text-left text-xs font-medium text-gray-500 px-5 py-3">
-                Facility
-              </th>
-              <th className="text-left text-xs font-medium text-gray-500 px-5 py-3">
-                Type
-              </th>
-              <th className="text-left text-xs font-medium text-gray-500 px-5 py-3">
-                Date
-              </th>
-              <th className="text-left text-xs font-medium text-gray-500 px-5 py-3">
-                Status
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-grey-border">
-            {filtered.map((ref, i) => (
-              <tr
-                key={ref.id}
-                className={`hover:bg-gray-50 transition-colors ${
-                  i % 2 === 1 ? "bg-grey-bg/50" : ""
-                }`}
-              >
-                <td className="px-5 py-3 text-xs font-mono text-gray-400">
-                  {ref.id}
-                </td>
-                <td className="px-5 py-3">
-                  <p className="text-sm font-medium text-gray-900">
-                    {ref.player}
-                  </p>
-                  <p className="text-xs text-gray-400">{ref.team}</p>
-                </td>
-                <td className="px-5 py-3 text-sm text-gray-700">
-                  {ref.referringDoctor}
-                </td>
-                <td className="px-5 py-3 text-sm text-gray-700">
-                  {ref.facility}
-                </td>
-                <td className="px-5 py-3 text-sm text-gray-700">{ref.type}</td>
-                <td className="px-5 py-3 text-sm text-gray-500">{ref.date}</td>
-                <td className="px-5 py-3">
-                  <span
-                    className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${statusStyles[ref.status]}`}
-                  >
-                    {ref.status}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Cards — Mobile */}
-      <div className="lg:hidden space-y-3">
-        {filtered.map((ref) => (
-          <div
-            key={ref.id}
-            className="bg-white rounded-xl border border-grey-border p-4"
-          >
-            <div className="flex items-start justify-between mb-2">
-              <div>
-                <p className="text-sm font-semibold text-gray-900">
-                  {ref.player} — {ref.team}
-                </p>
-                <p className="text-xs text-gray-400 font-mono">{ref.id}</p>
+      {/* Kanban Board */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {columns.map((col) => {
+          const items = referrals.filter((r) => r.status === col.status);
+          return (
+            <div key={col.status} className={`bg-bg-subtle rounded-2xl border-t-[3px] ${col.color}`}>
+              {/* Column Header */}
+              <div className="px-4 py-3 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className={`w-2 h-2 rounded-full ${col.dotColor}`} />
+                  <h3 className="text-[13px] font-semibold text-text">
+                    {col.label}
+                  </h3>
+                </div>
+                <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-md ${col.headerBg}`}>
+                  {items.length}
+                </span>
               </div>
-              <span
-                className={`text-[11px] font-medium px-2 py-0.5 rounded-full shrink-0 ${statusStyles[ref.status]}`}
-              >
-                {ref.status}
-              </span>
+
+              {/* Cards */}
+              <div className="px-3 pb-3 space-y-2.5 kanban-scroll max-h-[calc(100vh-260px)] overflow-auto">
+                {items.map((ref) => (
+                  <div
+                    key={ref.id}
+                    className="bg-surface rounded-xl border border-border p-4 hover:shadow-md hover:-translate-y-[1px] transition-all duration-200 cursor-pointer group"
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <p className="text-[13px] font-semibold text-text group-hover:text-accent transition-colors">
+                        {ref.player}
+                      </p>
+                      <span className={`text-[10px] font-medium px-2 py-0.5 rounded-md ${typeBadge[ref.type] || "bg-gray-50 text-gray-600"}`}>
+                        {ref.type}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-text-muted mb-0.5">{ref.team}</p>
+                    <div className="mt-3 space-y-1.5 text-[12px] text-text-secondary">
+                      <p>
+                        <span className="text-text-muted">From:</span> {ref.referringDoctor}
+                      </p>
+                      <p>
+                        <span className="text-text-muted">To:</span> {ref.facility}
+                      </p>
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-border-light flex items-center justify-between">
+                      <span className="text-[11px] text-text-muted">{ref.date}</span>
+                      <span className="text-[10px] text-text-faint font-mono">{ref.id}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="space-y-1 text-xs text-gray-500">
-              <p>
-                <span className="text-gray-400">Doctor:</span>{" "}
-                {ref.referringDoctor}
-              </p>
-              <p>
-                <span className="text-gray-400">Facility:</span> {ref.facility}
-              </p>
-              <p>
-                <span className="text-gray-400">Type:</span> {ref.type} ·{" "}
-                {ref.date}
-              </p>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
